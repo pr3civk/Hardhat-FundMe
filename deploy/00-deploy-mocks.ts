@@ -16,7 +16,7 @@ module.exports = async ({ getNamedAccounts, deployments }: MocksConfig) => {
     const { DECIMALS, INITIAL_PRICE } = constants;
 
     if (devNetworkConfig.includes(network.name)) {
-        log("Mocks are not deployed on dev networks");
+        log("Mocks are deployed on dev network");
         await deploy("MockV3Aggregator", {
             contract: "MockV3Aggregator",
             from: deployer,
