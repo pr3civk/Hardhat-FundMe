@@ -13,8 +13,8 @@ contract FundMe {
     address public s_owner;
     AggregatorV3Interface public s_priceFeed;
 
-    constructor(address priceFeed) {
-        s_priceFeed = AggregatorV3Interface(priceFeed);
+    constructor(address priceFeedAdress) {
+        s_priceFeed = AggregatorV3Interface(priceFeedAdress);
         s_owner = msg.sender;
     }
 
@@ -54,7 +54,6 @@ contract FundMe {
     function cheaperWithdraw() public payable onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
         address[] memory funders = s_funders;
-        // mappings can't be in memory, sorry!
         for (
             uint256 funderIndex = 0;
             funderIndex < funders.length;
