@@ -1,5 +1,5 @@
 import { network } from "hardhat";
-import { networkConfig } from "../helper-hardhat-config";
+import { devNetworkConfig, networkConfig } from "../helper-hardhat-config";
 
 interface ContractConfig {
     getNamedAccounts: () => Promise<any>;
@@ -11,8 +11,17 @@ module.exports = async ({ getNamedAccounts, deployments }: ContractConfig) => {
     const { deployer } = await getNamedAccounts();
     const chainId = network.config.chainId;
 
-    const ethUsdPriceFeedAddress = networkConfig[chainId!].ethUsdPriceFeed;
-    const networkName = networkConfig[chainId!].name;
+    let ethUsdPriceFeedAddress: string;
+    let networkName: string;
+    
+    if (devNetworkConfig.includes(network.name)) {
+        const ethUSDAggregator = await deployments.get("MockV3Aggregator");
+        ethUsdPriceFeedAddress = ethUSDAggregator.address;
+        networkName = network.name;
+    } else {
+        ethUsdPriceFeedAddress = networkConfig[chainId!].ethUsdPriceFeed;
+        networkName = networkConfig[chainId!].name;
+    }
 
     const fundMe = await deploy("FundMe", {
         from: deployer,

@@ -26,6 +26,7 @@
   "dependencies": {
     "@nomicfoundation/hardhat-ethers": "^6.11.1",
     "dotenv": "^16.4.5",
-    "ethers": "^6.11.1"
+    "ethers": "^6.11.1",
+    "nvm": "^0.0.4"
   }
 }

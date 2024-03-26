@@ -1,5 +1,9 @@
 import { network } from "hardhat";
-import { networkConfig } from "../helper-hardhat-config";
+import {
+    networkConfig,
+    devNetworkConfig,
+    constants,
+} from "../helper-hardhat-config";
 
 interface MocksConfig {
     getNamedAccounts: any;
@@ -9,7 +13,17 @@ interface MocksConfig {
 module.exports = async ({ getNamedAccounts, deployments }: MocksConfig) => {
     const { deploy, log } = deployments;
     const { deployer } = await getNamedAccounts();
-    const chainId = network.config.chainId;
+    const { DECIMALS, INITIAL_PRICE } = constants;
 
-    
+    if (devNetworkConfig.includes(network.name)) {
+        log("Mocks are not deployed on dev networks");
+        await deploy("MockV3Aggregator", {
+            contract: "MockV3Aggregator",
+            from: deployer,
+            log: true,
+            args: [DECIMALS, INITIAL_PRICE],
+        });
+        log("MockV3Aggregator deployed");
+        log("---------------------------------------------------------");
+    }
 };

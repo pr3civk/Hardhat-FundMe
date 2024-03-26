@@ -7,6 +7,15 @@ interface NetworkConfigMap {
     [networkId: number]: NetworkConfig;
 }
 
+interface Constants {
+    [constant: string]: number | string | boolean;
+}
+
+export const constants: Constants = {
+    DECIMALS: 8,
+    INITIAL_PRICE: 30000000000,
+};
+
 export const networkConfig: NetworkConfigMap = {
     11155111: {
         name: "sepolia-testnet",
@@ -21,3 +30,5 @@ export const networkConfig: NetworkConfigMap = {
         ethUsdPriceFeed: "0x0715A7794a1dc8e42615F059dD6e406A6594651A",
     },
 };
+
+export const devNetworkConfig: string[] = ["hardhat", "localhost"];
